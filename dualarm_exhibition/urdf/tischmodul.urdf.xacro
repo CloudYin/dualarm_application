@@ -1,0 +1,57 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro">
+	<xacro:macro name="tischmodul">
+
+		<!-- visual geometry -->
+	    	<visual>
+			<origin xyz="0 0 0" rpy="1.571 0 -1.571" />
+			<geometry>
+                <mesh filename="package://dualarm_exhibition/meshes/tischmodul_2.stl"/>
+			</geometry>
+			<material name="Schunk/LightGrey" />
+		</visual>
+
+		<!-- simplified collision geometry -->
+		<!-- lower part -->
+	    	<collision>
+			<origin xyz="0 0 0.08" rpy="0 0 0" />
+			<geometry>
+				<box size="0.5 0.5 0.16" />
+			</geometry>
+		</collision>
+		<!-- front pillars -->
+		<collision>
+			<origin xyz="0.15 0.15 0.45" rpy="0 0 0" />
+			<geometry>
+				<cylinder length="0.90" radius="0.075" />
+			</geometry>
+		</collision>
+		<collision>
+			<origin xyz="0.15 -0.15 0.45" rpy="0 0 0" />
+			<geometry>
+				<cylinder length="0.90" radius="0.075" />
+			</geometry>
+		</collision>
+		<!-- rear pillars -->
+		<collision>
+			<origin xyz="-0.03 0.15 0.45" rpy="0 0.31 0" />
+			<geometry>
+				<cylinder length="0.90" radius="0.05" />
+			</geometry>
+		</collision>
+		<collision>
+			<origin xyz="-0.03 -0.15 0.45" rpy="0 0.31 0" />
+			<geometry>
+				<cylinder length="0.90" radius="0.05" />
+			</geometry>
+		</collision>
+		<!-- uppper part -->
+		<collision>
+			<origin xyz="0.15 0 0.91" rpy="0 0 0" />
+			<geometry>
+				<box size="0.2 0.5 0.22" />
+			</geometry>
+		</collision>
+
+	</xacro:macro>
+</robot>

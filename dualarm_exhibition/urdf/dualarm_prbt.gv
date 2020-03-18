@@ -1,0 +1,77 @@
+digraph G {
+node [shape=box];
+"table" [label="table"];
+"box" [label="box"];
+"flash_1" [label="flash_1"];
+"flash_2" [label="flash_2"];
+"stander" [label="stander"];
+"left_fixture" [label="left_fixture"];
+"left_arm_base_link" [label="left_arm_base_link"];
+"left_arm_base" [label="left_arm_base"];
+"left_arm_link_1" [label="left_arm_link_1"];
+"left_arm_link_2" [label="left_arm_link_2"];
+"left_arm_link_3" [label="left_arm_link_3"];
+"left_arm_link_4" [label="left_arm_link_4"];
+"left_arm_link_5" [label="left_arm_link_5"];
+"left_arm_flange" [label="left_arm_flange"];
+"left_arm_tool0" [label="left_arm_tool0"];
+"right_fixture" [label="right_fixture"];
+"right_arm_base_link" [label="right_arm_base_link"];
+"right_arm_base" [label="right_arm_base"];
+"right_arm_link_1" [label="right_arm_link_1"];
+"right_arm_link_2" [label="right_arm_link_2"];
+"right_arm_link_3" [label="right_arm_link_3"];
+"right_arm_link_4" [label="right_arm_link_4"];
+"right_arm_link_5" [label="right_arm_link_5"];
+"right_arm_flange" [label="right_arm_flange"];
+"right_arm_tool0" [label="right_arm_tool0"];
+node [shape=ellipse, color=blue, fontcolor=blue];
+"table" -> "box_joint" [label="xyz: 0 0 0 \nrpy: 0 -0 0"]
+"box_joint" -> "box"
+"table" -> "flash_1_joint" [label="xyz: 0 0 0 \nrpy: 0 -0 0"]
+"flash_1_joint" -> "flash_1"
+"table" -> "flash_2_joint" [label="xyz: 0 0 0 \nrpy: 0 -0 0"]
+"flash_2_joint" -> "flash_2"
+"table" -> "table_joint" [label="xyz: 0 0 0 \nrpy: 0 -0 0"]
+"table_joint" -> "stander"
+"stander" -> "left_fixture_joint" [label="xyz: 0.068 0.213 0.3944 \nrpy: 0.14 -1.0472 2.33"]
+"left_fixture_joint" -> "left_fixture"
+"left_fixture" -> "left_fixture_base_joint" [label="xyz: 0 0 0 \nrpy: 0 0 -0.523"]
+"left_fixture_base_joint" -> "left_arm_base_link"
+"left_arm_base_link" -> "left_arm_base_link-base" [label="xyz: 0 0 0 \nrpy: 0 -0 0"]
+"left_arm_base_link-base" -> "left_arm_base"
+"left_arm_base_link" -> "left_arm_joint_1" [label="xyz: 0 0 0.2604 \nrpy: 0 0 3.14159"]
+"left_arm_joint_1" -> "left_arm_link_1"
+"left_arm_link_1" -> "left_arm_joint_2" [label="xyz: 0 0 0 \nrpy: 1.5708 -0 0"]
+"left_arm_joint_2" -> "left_arm_link_2"
+"left_arm_link_2" -> "left_arm_joint_3" [label="xyz: 0 0.35 0 \nrpy: 3.14159 -2.06823e-13 3.14159"]
+"left_arm_joint_3" -> "left_arm_link_3"
+"left_arm_link_3" -> "left_arm_joint_4" [label="xyz: 0 0 0 \nrpy: 1.5708 -2.06823e-13 3.14159"]
+"left_arm_joint_4" -> "left_arm_link_4"
+"left_arm_link_4" -> "left_arm_joint_5" [label="xyz: 0 0 0.307 \nrpy: 1.5708 1.26218e-29 -3.14159"]
+"left_arm_joint_5" -> "left_arm_link_5"
+"left_arm_link_5" -> "left_arm_joint_6" [label="xyz: 0 0.084 0 \nrpy: -1.5708 0 0"]
+"left_arm_joint_6" -> "left_arm_flange"
+"left_arm_flange" -> "left_arm_flange-tool0" [label="xyz: 0 0 0 \nrpy: 0 -0 0"]
+"left_arm_flange-tool0" -> "left_arm_tool0"
+"stander" -> "right_fixture_joint" [label="xyz: -0.068 0.213 0.3944 \nrpy: -0.14 -1.0472 0.807"]
+"right_fixture_joint" -> "right_fixture"
+"right_fixture" -> "right_fixture_base_joint" [label="xyz: 0 0 0 \nrpy: 0 -0 0.523"]
+"right_fixture_base_joint" -> "right_arm_base_link"
+"right_arm_base_link" -> "right_arm_base_link-base" [label="xyz: 0 0 0 \nrpy: 0 -0 0"]
+"right_arm_base_link-base" -> "right_arm_base"
+"right_arm_base_link" -> "right_arm_joint_1" [label="xyz: 0 0 0.2604 \nrpy: 0 0 3.14159"]
+"right_arm_joint_1" -> "right_arm_link_1"
+"right_arm_link_1" -> "right_arm_joint_2" [label="xyz: 0 0 0 \nrpy: 1.5708 -0 0"]
+"right_arm_joint_2" -> "right_arm_link_2"
+"right_arm_link_2" -> "right_arm_joint_3" [label="xyz: 0 0.35 0 \nrpy: 3.14159 -2.06823e-13 3.14159"]
+"right_arm_joint_3" -> "right_arm_link_3"
+"right_arm_link_3" -> "right_arm_joint_4" [label="xyz: 0 0 0 \nrpy: 1.5708 -2.06823e-13 3.14159"]
+"right_arm_joint_4" -> "right_arm_link_4"
+"right_arm_link_4" -> "right_arm_joint_5" [label="xyz: 0 0 0.307 \nrpy: 1.5708 1.26218e-29 -3.14159"]
+"right_arm_joint_5" -> "right_arm_link_5"
+"right_arm_link_5" -> "right_arm_joint_6" [label="xyz: 0 0.084 0 \nrpy: -1.5708 0 0"]
+"right_arm_joint_6" -> "right_arm_flange"
+"right_arm_flange" -> "right_arm_flange-tool0" [label="xyz: 0 0 0 \nrpy: 0 -0 0"]
+"right_arm_flange-tool0" -> "right_arm_tool0"
+}

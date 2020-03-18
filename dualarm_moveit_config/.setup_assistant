@@ -1,0 +1,11 @@
+moveit_setup_assistant_config:
+  URDF:
+    package: dualarm_exhibition
+    relative_path: urdf/dualarm_prbt.urdf
+    xacro_args: ""
+  SRDF:
+    relative_path: config/dualarm_prbt.srdf
+  CONFIG:
+    author_name: Cloud Yin
+    author_email: zy.yin@pilz.com.cn
+    generated_timestamp: 1584337542

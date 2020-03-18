@@ -1,0 +1,238 @@
+<?xml version="1.0"?>
+<robot name="dualarm_prbt" xmlns:xacro="http://www.ros.org/wiki/xacro">
+
+
+  <!-- macro definition of dual arm -->
+  <xacro:include filename="$(find prbt_support)/urdf/prbt_macro.xacro" />
+
+  <!-- schunk pg70 -->
+  <!-- <xacro:include filename="$(find prbt_pg70_support)/urdf/pg70.urdf.xacro" /> -->
+
+  <!-- gripper brackets -->
+  <!-- <xacro:include filename="$(find prbt_support)/urdf/simple_gripper_brackets.urdf.xacro" /> -->
+
+  <!-- parameters for instantiation of a robot -->
+  <!-- right robot mount pose -->
+  <xacro:arg name="robot_origin_xyz_right" default="-0.068 0.213 0.3944"/>
+  <xacro:arg name="robot_origin_rpy_right" default="-0.14 -1.0472 0.807"/>
+
+  <!-- left robot mount pose -->
+  <xacro:arg name="robot_origin_xyz_left" default="0.068 0.213 0.3944"/>
+  <xacro:arg name="robot_origin_rpy_left" default="0.14 -1.0472 2.33"/>
+  
+
+  <!-- Used for fixing robot to Gazebo -->
+  <link name="table">
+    <visual>
+      <origin xyz="0 0 -0.03" rpy="0 0 0" />
+      <geometry>
+        <box size="1.42 1.04 0.05"/>
+      </geometry>
+      <material name="grey">
+        <color rgba="0.75 0.75 0.75 1"/>
+      </material>
+    </visual>
+
+    <!-- Move space limitation -->
+    <!-- left -->
+    <!-- <collision>
+      <origin rpy="0 0 0" xyz="-0.71 0 0.55"/>
+      <geometry>
+        <box size="0.01 1.04 1.1"/>
+      </geometry>
+    </collision> -->
+
+    <!-- Right -->
+    <!-- <collision>
+      <origin rpy="0 0 0" xyz="0.71 0 0.55"/>
+      <geometry>
+        <box size="0.01 1.04 1.1"/>
+      </geometry>
+    </collision> -->
+
+    <!-- Back -->
+    <collision>
+      <origin rpy="0 0 0" xyz="0 0.52 0.55"/>
+      <geometry>
+        <box size="1.42 0.01 1.1"/>
+      </geometry>
+    </collision>
+
+    <!-- Front -->
+    <!-- <collision>
+      <origin rpy="0 0 0" xyz="0 -0.52 0.55"/>
+      <geometry>
+        <box size="1.42 0.01 1.1"/>
+      </geometry>
+    </collision> -->
+
+    <!-- Bottom -->
+    <collision>
+      <origin xyz="0 0 -0.03" rpy="0 0 0" />
+      <geometry>
+        <box size="1.42 1.04 0.05"/>
+      </geometry>
+    </collision>
+
+  </link>
+
+
+  <link name="box">
+    <visual>
+      <origin xyz="-0.95 0.635 -0.85" rpy="1.57 0 0" />
+      <geometry>
+        <mesh filename="package://dualarm_exhibition/meshes/box.stl" 
+          scale="0.001 0.001 0.001" />
+      </geometry>
+      <material name="yellow">
+         <color rgba="1 1 0 1"/>
+      </material>
+    </visual>
+
+    <collision>
+      <origin xyz="-0.95 0.635 -0.85" rpy="1.57 0 0" />
+      <geometry>
+        <mesh filename="package://dualarm_exhibition/meshes/box.stl" 
+          scale="0.001 0.001 0.001" />
+      </geometry>
+    </collision>
+  </link>
+
+  <joint name="box_joint" type="fixed">
+	  <origin xyz="0 0 0" rpy="0 0 0" />
+    <parent link="table" />
+    <child link="box" />
+  </joint>
+
+
+  <link name="flash_1">
+    <visual>
+      <origin xyz="-1 0.62 -0.85" rpy="1.57 0 0" />
+      <geometry>
+        <mesh filename="package://dualarm_exhibition/meshes/flash_1.stl" 
+          scale="0.001 0.001 0.001" />
+      </geometry>
+      <material name="yellow">
+         <color rgba="1 1 0 1"/>
+      </material>
+    </visual>
+    <collision>
+      <origin xyz="-1 0.62 -0.85" rpy="1.57 0 0" />
+      <geometry>
+        <mesh filename="package://dualarm_exhibition/meshes/flash_1.stl" 
+          scale="0.001 0.001 0.001" />
+      </geometry>
+    </collision>
+  </link>
+
+  <joint name="flash_1_joint" type="fixed">
+	  <origin xyz="0 0 0" rpy="0 0 0" />
+    <parent link="table" />
+    <child link="flash_1" />
+  </joint>
+
+
+  <link name="flash_2">
+    <visual>
+      <origin xyz="-0.999 0.62 -0.85" rpy="1.57 0 0" />
+      <geometry>
+        <mesh filename="package://dualarm_exhibition/meshes/flash_2.stl" 
+          scale="0.001 0.001 0.001" />
+      </geometry>
+      <material name="yellow">
+         <color rgba="1 1 0 1"/>
+      </material>
+    </visual>
+    <collision>
+      <origin xyz="-0.999 0.62 -0.85" rpy="1.57 0 0" />
+      <geometry>
+        <mesh filename="package://dualarm_exhibition/meshes/flash_2.stl" 
+          scale="0.001 0.001 0.001" />
+      </geometry>
+    </collision>
+  </link>
+
+  <joint name="flash_2_joint" type="fixed">
+	  <origin xyz="0 0 0" rpy="0 0 0" />
+    <parent link="table" />
+    <child link="flash_2" />
+  </joint>
+
+
+  <joint name="table_joint" type="fixed">
+	<!-- <origin xyz="0 0 0" rpy="0 0 0" /> -->
+    <parent link="table" />
+    <child link="stander" />
+  </joint>
+
+
+  <link name="stander">
+    <visual>
+      <origin xyz="0 0.233 0" rpy="0 0 -1.57" />
+      <geometry>
+        <mesh filename="package://dualarm_exhibition/meshes/torso.stl"/>
+      </geometry>
+      <material name="grey">
+         <color rgba="0.6 0.6 0.6 1"/>
+      </material>
+    </visual>
+    <collision>
+      <origin xyz="0 0.233 0" rpy="0 0 -1.57" />
+      <geometry>
+        <mesh filename="package://dualarm_exhibition/meshes/torso.stl"/>
+      </geometry>
+    </collision>
+  </link>
+
+
+  <!-- additional links for offset and rotation -->
+  <joint name="left_fixture_joint" type="fixed">
+    <origin xyz="$(arg robot_origin_xyz_left)" rpy="$(arg robot_origin_rpy_left)" />
+    <parent link="stander" />
+    <child link="left_fixture" />
+  </joint>
+  <link name="left_fixture" />
+
+  <joint name="right_fixture_joint" type="fixed">
+    <origin xyz="$(arg robot_origin_xyz_right)" rpy="$(arg robot_origin_rpy_right)" />
+    <parent link="stander" />
+    <child link="right_fixture" />
+  </joint>
+  <link name="right_fixture" />
+
+
+  <!-- instantiate the robot -->
+  <xacro:prbt prefix="left_arm" />
+  <joint name="left_fixture_base_joint" type="fixed">
+    <origin xyz="0 0 0" rpy="0 0 -0.523" />
+    <parent link="left_fixture" />
+    <child link="left_arm_base_link" />
+  </joint>
+
+  <xacro:prbt prefix="right_arm" />
+  <joint name="right_fixture_base_joint" type="fixed">
+    <origin xyz="0 0 0" rpy="0 0 0.523" />
+    <parent link="right_fixture" />
+    <child link="right_arm_base_link" />
+  </joint>
+
+
+  <!--real gripper for left arm PG plus 70-->
+  <!-- <xacro:prbt_gripper gripper_name="left_gripper" parent="left_arm_flange" /> -->
+
+  <!-- real gripper for right arm PG plus 70 -->
+  <!-- <xacro:prbt_gripper gripper_name="right_gripper" parent="right_arm_flange" /> -->
+
+  <!-- Add gripper brackets -->
+  <!-- <xacro:simple_gripper_brackets
+      gripper_name="right_gripper"
+      parent_left="right_gripper_finger_left_link"
+      parent_right="right_gripper_finger_right_link"/> -->
+
+  <!-- Add gripper brackets -->
+  <!-- <xacro:simple_gripper_brackets
+      gripper_name="left_gripper"
+      parent_left="left_gripper_finger_left_link"
+      parent_right="left_gripper_finger_right_link"/> -->
+
+</robot>
