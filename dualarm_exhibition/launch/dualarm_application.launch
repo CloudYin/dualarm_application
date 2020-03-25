@@ -32,7 +32,7 @@
 
             <!-- Safe-torque-off-input from the safety controller is read to brake the robot before power-off
                  The signal is read via modbus and you can configure the modbus server ip -->
-            <arg name="sto" value="none" />
+            <arg name="sto" value="pnoz" />
             <arg name="sto_modbus_server_ip" value="169.254.60.1" />
 
             <!-- Set the name of the config file for canopen_motor_node. If you want to change settings, copy the yaml

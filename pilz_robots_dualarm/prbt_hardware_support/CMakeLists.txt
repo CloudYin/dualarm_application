@@ -104,12 +104,25 @@ add_dependencies(modbus_adapter_sto_node ${catkin_EXPORTED_TARGETS} ${PROJECT_NA
 target_link_libraries(modbus_adapter_sto_node ${catkin_LIBRARIES})
 
 # STOP1_EXECUTOR_NODE
-add_executable(stop1_executor_node
-  src/stop1_executor.cpp
-  src/stop1_executor_node.cpp
+#add_executable(stop1_executor_node
+#  src/stop1_executor.cpp
+#  src/stop1_executor_node.cpp
+#)
+add_executable(left_arm_stop1_executor_node
+  src/left_arm_stop1_executor.cpp
+  src/left_arm_stop1_executor_node.cpp
 )
-add_dependencies(stop1_executor_node ${catkin_EXPORTED_TARGETS} ${PROJECT_NAME}_generate_messages_cpp)
-target_link_libraries(stop1_executor_node ${catkin_LIBRARIES})
+add_executable(right_arm_stop1_executor_node
+  src/right_arm_stop1_executor.cpp
+  src/right_arm_stop1_executor_node.cpp
+)
+
+#add_dependencies(stop1_executor_node ${catkin_EXPORTED_TARGETS} ${PROJECT_NAME}_generate_messages_cpp)
+#target_link_libraries(stop1_executor_node ${catkin_LIBRARIES})
+add_dependencies(left_arm_stop1_executor_node ${catkin_EXPORTED_TARGETS} ${PROJECT_NAME}_generate_messages_cpp)
+target_link_libraries(left_arm_stop1_executor_node ${catkin_LIBRARIES})
+add_dependencies(right_arm_stop1_executor_node ${catkin_EXPORTED_TARGETS} ${PROJECT_NAME}_generate_messages_cpp)
+target_link_libraries(right_arm_stop1_executor_node ${catkin_LIBRARIES})
 
 # OPERATION_MODE_SETUP_EXECUTOR_NODE
 add_executable(operation_mode_setup_executor_node
@@ -209,7 +222,9 @@ install(DIRECTORY include/${PROJECT_NAME}/
 install(TARGETS
   modbus_adapter_sto_node
   pilz_modbus_client_node
-  stop1_executor_node
+#  stop1_executor_node
+  left_arm_stop1_executor_node
+  right_arm_stop1_executor_node
   canopen_braketest_adapter_node
   modbus_adapter_brake_test_node
   brake_test_executor_node

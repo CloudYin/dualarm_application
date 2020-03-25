@@ -42,8 +42,9 @@
   <node pkg="robot_state_publisher" type="robot_state_publisher" name="robot_state_publisher" />
 
   <!-- relay to /joint_states -->
-  <node ns="left_arm" name="joint_state_relay" pkg="topic_tools" type="relay" args="/left_arm/joint_states /joint_states"/>
-  <node ns="right_arm" name="joint_state_relay" pkg="topic_tools" type="relay" args="/right_arm/joint_states /joint_states"/>
+  <!-- <node ns="left_arm" name="joint_state_relay" pkg="topic_tools" type="relay" args="/left_arm/joint_states /joint_states"/>
+  <node ns="right_arm" name="joint_state_relay" pkg="topic_tools" type="relay" args="/right_arm/joint_states /joint_states"/> -->
+  <node name="joint_states_combine_node" pkg="dualarm_exhibition" type="joint_state_combine_node.py" />
 
   <!-- start the driver -->
   <node ns="left_arm" name="driver" pkg="canopen_motor_node" type="canopen_motor_node" output="screen" clear_params="true">
@@ -77,10 +78,13 @@
   <!-- Initialize controllers and start STO-processing (if configured) -->
   <group unless="$(eval sto.lower() == 'none')" >
     <!-- Load api spec for all nodes -->
-    <rosparam ns="/prbt/read_api_spec" command="load" file="$(arg read_api_spec_file)" />
-    <rosparam ns="/prbt/write_api_spec" command="load" file="$(arg write_api_spec_file)" if="$(arg has_operation_mode_support)" />
+    <rosparam ns="/left_arm/read_api_spec" command="load" file="$(arg read_api_spec_file)" />
+    <rosparam ns="/left_arm/write_api_spec" command="load" file="$(arg write_api_spec_file)" if="$(arg has_operation_mode_support)" />
+    <rosparam ns="/right_arm/read_api_spec" command="load" file="$(arg read_api_spec_file)" />
+    <rosparam ns="/right_arm/write_api_spec" command="load" file="$(arg write_api_spec_file)" if="$(arg has_operation_mode_support)" />
 
-    <node pkg="rosservice" type="rosservice" name="robot_init" args="call --wait /prbt/driver/init"/>
+    <node pkg="rosservice" type="rosservice" name="left_arm_init" args="call --wait /left_arm/driver/init"/>
+    <node pkg="rosservice" type="rosservice" name="right_arm_init" args="call --wait /right_arm/driver/init"/>
     <include file="$(find prbt_hardware_support)/launch/modbus_client.launch">
       <arg name="modbus_server_ip" value="$(arg sto_modbus_server_ip)" />
     </include>

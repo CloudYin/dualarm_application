@@ -16,5 +16,6 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 -->
 
 <launch>
-  <node required="true" ns="prbt" pkg="prbt_hardware_support" type="stop1_executor_node" name="stop1_executor_node" output="screen"/>
+  <node required="true" ns="left_arm" pkg="prbt_hardware_support" type="left_arm_stop1_executor_node" name="stop1_executor_node" output="screen"/>
+  <node required="true" ns="right_arm" pkg="prbt_hardware_support" type="right_arm_stop1_executor_node" name="stop1_executor_node" output="screen"/>
 </launch>
