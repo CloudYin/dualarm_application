@@ -3,6 +3,11 @@
     <!-- The "sim" argument controls whether we connect to a Simulated or Real robot -->
     <arg name="sim" default="false" />
 
+    <!-- Control a supported gripper, e.g. 'pg70'.
+         Note: Please include the gripper model into your application URDF yourself. -->
+    <arg name="left_arm_gripper" value="pg70" />
+    <arg name="right_arm_gripper" value="pg70" />
+
     <!-- Send urdf to parameter server -->
     <param name="robot_description"
         command="$(find xacro)/xacro '$(find dualarm_exhibition)/urdf/dualarm_prbt.xacro'" />
@@ -17,6 +22,9 @@
     <include file="$(find dualarm_moveit_config)/launch/move_group.launch">
         <arg name="fake_execution" value="$(arg sim)" /> <!-- do not change -->
         <arg name="load_robot_description" value="false" />
+        <arg name="left_arm_gripper" value="$(arg left_arm_gripper)" />
+        <arg name="right_arm_gripper" value="$(arg right_arm_gripper)" />
+
         <arg name="pipeline" value="pilz_command_planner" /><!-- Choose planning pipeline -->
         <!-- <arg name="capabilities" value="" /> --> <!-- additional capabilites (space seperated) -->
         <!-- <arg name="disable_capabilities" value="" /> --> <!-- inhibit capabilites (space seperated) -->
@@ -28,7 +36,8 @@
     <group unless="$(arg sim)">
         <include file="$(find dualarm_exhibition)/launch/robot.launch">
             <arg name="load_robot_description" value="false" />
-            <!-- <arg name="gripper" value="$(arg gripper)" /> -->
+            <arg name="left_arm_gripper" value="$(arg left_arm_gripper)" />
+            <arg name="right_arm_gripper" value="$(arg right_arm_gripper)" />
 
             <!-- Safe-torque-off-input from the safety controller is read to brake the robot before power-off
                  The signal is read via modbus and you can configure the modbus server ip -->

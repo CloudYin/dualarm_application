@@ -1,0 +1,28 @@
+<?xml version="1.0" ?>
+
+<robot name="dualarm_prbt" xmlns:xacro="http://www.ros.org/wiki/xacro">
+
+    <!-- parameter -->
+    <xacro:arg name="left_arm_gripper" default=""/>
+    <xacro:arg name="right_arm_gripper" default=""/>
+    <xacro:property name="left_arm_gripper" value="$(arg left_arm_gripper)"/>
+    <xacro:property name="right_arm_gripper" value="$(arg right_arm_gripper)"/>
+
+    <!--VIRTUAL JOINT: Purpose: this element defines a virtual joint between a robot link and an external frame of reference (considered fixed with respect to the robot)-->
+    <virtual_joint name="FixedBase" type="fixed" parent_frame="world" child_link="table" />
+
+    <!-- dualarm manipulator -->
+    <xacro:include filename="$(find dualarm_moveit_config)/config/dualarm_prbt_manipulator.srdf.xacro" />
+    <xacro:dualarm_prbt_manipulator prefix="dualarm_prbt"/>
+
+    <!-- has left arm gripper -->
+    <xacro:unless value="${not left_arm_gripper}">
+        <xacro:include filename="$(find prbt_${left_arm_gripper}_support)/config/left_arm_${left_arm_gripper}.srdf.xacro" />
+    </xacro:unless>
+
+    <!-- has right arm gripper -->
+    <xacro:unless value="${not right_arm_gripper}">
+        <xacro:include filename="$(find prbt_${right_arm_gripper}_support)/config/right_arm_${right_arm_gripper}.srdf.xacro" />
+    </xacro:unless>
+
+</robot>

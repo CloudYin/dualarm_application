@@ -24,7 +24,10 @@
   <arg name="capabilities" default=""/> <!-- define capabilites that are loaded on start (space seperated) -->
   <arg name="disable_capabilities" default=""/> <!-- inhibit capabilites (space seperated) -->
   
-  
+  <!-- Enable/Disable gripper -->
+  <arg name="left_arm_gripper" default="" />
+  <arg name="right_arm_gripper" default="" />
+
   <!-- add sequence capabilities for pilz_command_planner pipeline -->
   <arg name="_capabilities"
        value="$(arg capabilities) pilz_trajectory_generation/MoveGroupSequenceAction pilz_trajectory_generation/MoveGroupSequenceService"
@@ -36,6 +39,8 @@
 
   <!-- load robot models -->
   <include file="$(find dualarm_moveit_config)/launch/planning_context.launch">
+    <arg name="left_arm_gripper" value="$(arg left_arm_gripper)" />
+    <arg name="right_arm_gripper" value="$(arg right_arm_gripper)" />
     <arg name="load_robot_description" value="$(arg load_robot_description)" />
   </include>
 
@@ -49,6 +54,8 @@
     <arg name="moveit_manage_controllers" value="$(arg moveit_manage_controllers)" />
     <arg name="moveit_controller_manager" value="dualarm_prbt" unless="$(arg fake_execution)"/>
     <arg name="moveit_controller_manager" value="fake" if="$(arg fake_execution)"/>
+    <arg name="left_arm_gripper" value="$(arg left_arm_gripper)" />
+    <arg name="right_arm_gripper" value="$(arg right_arm_gripper)" />
   </include>
 
   <!-- Sensors Functionality -->

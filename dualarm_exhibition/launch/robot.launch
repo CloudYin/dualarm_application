@@ -1,7 +1,8 @@
 <?xml version="1.0"?>
 <launch>
   <!-- gripper e.g. pg70. See documentation of meta-package prbt_grippers -->
-  <!-- <arg name="gripper" default="" /> -->
+  <arg name="left_arm_gripper" default="" />
+  <arg name="right_arm_gripper" default="" />
 
   <!-- load description to the parameter server. If you wrote your own xacro model, you can load it yourself
        and set load_robot_description to false -->
@@ -30,9 +31,11 @@
        By default, spawn joint_state and joint_trajectory controllers;
        gripper controller is added to the defaults list, if gripper arg is set -->
   <arg name="left_arm_spawn_controllers"
-       default="$(eval 'left_arm_joint_trajectory_controller left_arm_joint_state_controller')" />
+       default="$(eval 'left_arm_joint_trajectory_controller left_arm_joint_state_controller' + 
+                  (' left_arm_gripper_joint_trajectory_controller' if arg('left_arm_gripper') else ''))" />
   <arg name="right_arm_spawn_controllers"
-       default="$(eval 'right_arm_joint_trajectory_controller right_arm_joint_state_controller')" />
+       default="$(eval 'right_arm_joint_trajectory_controller right_arm_joint_state_controller' +
+                  (' right_arm_gripper_joint_trajectory_controller' if arg('right_arm_gripper') else ''))" />
 
   <!-- send urdf to param server -->
   <param name="robot_description" if="$(arg load_robot_description)"
@@ -41,9 +44,7 @@
   <!-- robot state publisher -->
   <node pkg="robot_state_publisher" type="robot_state_publisher" name="robot_state_publisher" />
 
-  <!-- relay to /joint_states -->
-  <!-- <node ns="left_arm" name="joint_state_relay" pkg="topic_tools" type="relay" args="/left_arm/joint_states /joint_states"/>
-  <node ns="right_arm" name="joint_state_relay" pkg="topic_tools" type="relay" args="/right_arm/joint_states /joint_states"/> -->
+  <!-- combine dualarm joint states to /joint_states -->
   <node name="joint_states_combine_node" pkg="dualarm_exhibition" type="joint_state_combine_node.py" />
 
   <!-- start the driver -->
@@ -51,23 +52,26 @@
     <rosparam command="load" file="$(arg left_arm_canopen_config)" />
 
     <!-- allow can grippers to interfere with the canopen_motor_node parameters -->
-    <!-- <rosparam unless="$(eval not arg('gripper'))" command="load"
-              file="$(eval find('prbt_'+ gripper + '_support') + '/config/gripper_driver_canopen_motor_node.yaml')" /> -->
+    <rosparam unless="$(eval not arg('left_arm_gripper'))" command="load"
+              file="$(find dualarm_exhibition)/config/left_arm_gripper_driver_canopen_motor_node.yaml" />
   </node>
 
   <node ns="right_arm" name="driver" pkg="canopen_motor_node" type="canopen_motor_node" output="screen" clear_params="true">
     <rosparam command="load" file="$(arg right_arm_canopen_config)" />
 
     <!-- allow can grippers to interfere with the canopen_motor_node parameters -->
-    <!-- <rosparam unless="$(eval not arg('gripper'))" command="load"
-              file="$(eval find('prbt_'+ gripper + '_support') + '/config/gripper_driver_canopen_motor_node.yaml')" /> -->
+    <rosparam unless="$(eval not arg('right_arm_gripper'))" command="load"
+              file="$(find dualarm_exhibition)/config/right_arm_gripper_driver_canopen_motor_node.yaml" />
   </node>
 
   <!-- load controller configuration -->
   <rosparam ns="left_arm" command="load" file="$(find dualarm_exhibition)/config/left_arm_controller.yaml" />
+  <rosparam unless="$(eval not arg('left_arm_gripper'))" ns="left_arm" command="load"
+            file="$(find dualarm_exhibition)/config/left_arm_gripper_controller.yaml" />
+  
   <rosparam ns="right_arm" command="load" file="$(find dualarm_exhibition)/config/right_arm_controller.yaml" />
-  <!-- <rosparam unless="$(eval not arg('gripper'))" ns="prbt" command="load"
-            file="$(eval find('prbt_'+ gripper + '_support') + '/config/gripper_controller.yaml')" /> -->
+  <rosparam unless="$(eval not arg('right_arm_gripper'))" ns="right_arm" command="load"
+            file="$(find dualarm_exhibition)/config/right_arm_gripper_controller.yaml" />          
 
   <!-- spawn controllers -->
   <node ns="left_arm" name="controller_spawner" pkg="controller_manager" type="spawner"
@@ -105,9 +109,9 @@
     <node pkg="rosservice" type="rosservice" name="right_arm_init" args="call --wait /right_arm/driver/init"/>
   </group>
 
-  <!-- <node ns="left_arm" pkg="prbt_hardware_support" name="system_info_node"
-        type="system_info_node" output="screen" />
-  <node ns="right_arm" pkg="prbt_hardware_support" name="system_info_node"
-        type="system_info_node" output="screen" /> -->
+  <node ns="left_arm" pkg="prbt_hardware_support" name="left_arm_system_info_node"
+        type="left_arm_system_info_node" output="screen" />
+  <node ns="right_arm" pkg="prbt_hardware_support" name="right_arm_system_info_node"
+        type="right_arm_system_info_node" output="screen" />
 
 </launch>

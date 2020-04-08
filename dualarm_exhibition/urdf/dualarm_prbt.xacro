@@ -5,12 +5,6 @@
   <!-- macro definition of dual arm -->
   <xacro:include filename="$(find prbt_support)/urdf/prbt_macro.xacro" />
 
-  <!-- schunk pg70 -->
-  <!-- <xacro:include filename="$(find prbt_pg70_support)/urdf/pg70.urdf.xacro" /> -->
-
-  <!-- gripper brackets -->
-  <!-- <xacro:include filename="$(find prbt_support)/urdf/simple_gripper_brackets.urdf.xacro" /> -->
-
   <!-- parameters for instantiation of a robot -->
   <!-- right robot mount pose -->
   <xacro:arg name="robot_origin_xyz_right" default="-0.068 0.213 0.3944"/>
@@ -35,20 +29,20 @@
 
     <!-- Move space limitation -->
     <!-- left -->
-    <!-- <collision>
+    <collision>
       <origin rpy="0 0 0" xyz="-0.71 0 0.55"/>
       <geometry>
         <box size="0.01 1.04 1.1"/>
       </geometry>
-    </collision> -->
+    </collision>
 
     <!-- Right -->
-    <!-- <collision>
+    <collision>
       <origin rpy="0 0 0" xyz="0.71 0 0.55"/>
       <geometry>
         <box size="0.01 1.04 1.1"/>
       </geometry>
-    </collision> -->
+    </collision>
 
     <!-- Back -->
     <collision>
@@ -59,12 +53,12 @@
     </collision>
 
     <!-- Front -->
-    <!-- <collision>
+    <collision>
       <origin rpy="0 0 0" xyz="0 -0.52 0.55"/>
       <geometry>
         <box size="1.42 0.01 1.1"/>
       </geometry>
-    </collision> -->
+    </collision>
 
     <!-- Bottom -->
     <collision>
@@ -217,22 +211,13 @@
   </joint>
 
 
-  <!--real gripper for left arm PG plus 70-->
-  <!-- <xacro:prbt_gripper gripper_name="left_gripper" parent="left_arm_flange" /> -->
+<!-- add PG70 gripper with cuboid brackets of configurable size -->
+  <xacro:include filename="$(find prbt_pg70_support)/urdf/pg70.urdf.xacro" />
+  <xacro:prbt_gripper gripper_name="left_arm_gripper" parent="left_arm_flange" />
+  <xacro:prbt_gripper gripper_name="right_arm_gripper" parent="right_arm_flange" />
 
-  <!-- real gripper for right arm PG plus 70 -->
-  <!-- <xacro:prbt_gripper gripper_name="right_gripper" parent="right_arm_flange" /> -->
-
-  <!-- Add gripper brackets -->
-  <!-- <xacro:simple_gripper_brackets
-      gripper_name="right_gripper"
-      parent_left="right_gripper_finger_left_link"
-      parent_right="right_gripper_finger_right_link"/> -->
-
-  <!-- Add gripper brackets -->
-  <!-- <xacro:simple_gripper_brackets
-      gripper_name="left_gripper"
-      parent_left="left_gripper_finger_left_link"
-      parent_right="left_gripper_finger_right_link"/> -->
+  <xacro:include filename="$(find prbt_support)/urdf/simple_gripper_brackets.urdf.xacro" />
+  <xacro:simple_gripper_brackets gripper_name="left_arm_gripper" size_y="0.003" size_z="0.055" />
+  <xacro:simple_gripper_brackets gripper_name="right_arm_gripper" size_y="0.003" size_z="0.055" />
 
 </robot>

@@ -5,6 +5,13 @@
   <arg name="moveit_controller_manager" default="moveit_simple_controller_manager/MoveItSimpleControllerManager" />
   <param name="moveit_controller_manager" value="$(arg moveit_controller_manager)"/>
 
+  <!-- Set gripper -->
+  <arg name="left_arm_gripper" default="" />
+  <arg name="right_arm_gripper" default="" />
+
   <!-- loads ros_controllers to the param server -->
-  <rosparam file="$(find dualarm_moveit_config)/config/dualarm_controllers.yaml"/>
+  <rosparam if="$(eval not arg('left_arm_gripper') and not arg('right_arm_gripper'))"
+            file="$(find dualarm_moveit_config)/config/dualarm_controllers.yaml"/>
+  <rosparam unless="$(eval not arg('left_arm_gripper') and not arg('right_arm_gripper'))"
+            file="$(find dualarm_moveit_config)/config/dualarm_controllers_w_two_grippers.yaml"/>
 </launch>

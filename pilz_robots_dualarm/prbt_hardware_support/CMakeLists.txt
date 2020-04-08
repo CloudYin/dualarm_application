@@ -165,13 +165,30 @@ add_dependencies(canopen_braketest_adapter_node ${catkin_EXPORTED_TARGETS} ${PRO
 target_link_libraries(canopen_braketest_adapter_node ${catkin_LIBRARIES})
 
 # SYSTEM_INFO_NODE
-add_executable(system_info_node
-  src/system_info_node.cpp
-  src/system_info.cpp
+# add_executable(system_info_node
+#   src/system_info_node.cpp
+#   src/system_info.cpp
+#   src/system_info_exception.cpp
+# )
+# add_dependencies(system_info_node ${catkin_EXPORTED_TARGETS} ${PROJECT_NAME}_generate_messages_cpp)
+# target_link_libraries(system_info_node ${catkin_LIBRARIES})
+
+add_executable(left_arm_system_info_node
+  src/left_arm_system_info_node.cpp
+  src/left_arm_system_info.cpp
   src/system_info_exception.cpp
 )
-add_dependencies(system_info_node ${catkin_EXPORTED_TARGETS} ${PROJECT_NAME}_generate_messages_cpp)
-target_link_libraries(system_info_node ${catkin_LIBRARIES})
+add_dependencies(left_arm_system_info_node ${catkin_EXPORTED_TARGETS} ${PROJECT_NAME}_generate_messages_cpp)
+target_link_libraries(left_arm_system_info_node ${catkin_LIBRARIES})
+
+add_executable(right_arm_system_info_node
+  src/right_arm_system_info_node.cpp
+  src/right_arm_system_info.cpp
+  src/system_info_exception.cpp
+)
+add_dependencies(right_arm_system_info_node ${catkin_EXPORTED_TARGETS} ${PROJECT_NAME}_generate_messages_cpp)
+target_link_libraries(right_arm_system_info_node ${catkin_LIBRARIES})
+
 
 add_executable(fake_speed_override_node
   src/fake_speed_override_node.cpp
@@ -229,7 +246,9 @@ install(TARGETS
   modbus_adapter_brake_test_node
   brake_test_executor_node
   modbus_adapter_operation_mode_node
-  system_info_node
+#  system_info_node
+  left_arm_system_info_node
+  right_arm_system_info_node
   speed_observer_node
   fake_speed_override_node
   ARCHIVE DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}
